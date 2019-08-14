@@ -1,0 +1,21 @@
+---
+# tasks file for kde-archlinux
+
+- name: install kde
+  pacman:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - plasma-desktop
+  tags:
+    - kde
+
+- name: auto start kde
+  become: no
+  blockinfile:
+    path: /home/{{ ansible_user }}/.xinitrc
+    create: yes
+    block: |
+      exec startkde
+  tags:
+    - kde
